@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCart } from "../context/CartContext";
 
 // Mock product data with placeholders for images
 const PRODUCTS = [
@@ -59,6 +60,7 @@ export default function Shop() {
 // Sub component for individual items to isolate quantity state per card
 function ProductCard({ product }) {
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart(); // Hook into the global addToCart action
 
   // Handle manual typing in the input field
   const handleInputChange = (e) => {
@@ -75,8 +77,7 @@ function ProductCard({ product }) {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
   const handleAddToCart = () => {
-    alert(`Added ${quantity}x "${product.title}" to cart!`);
-    // Global context tracking will handle this action later
+    addToCart(product, quantity);
   };
 
   // Styles
